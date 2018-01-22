@@ -12,66 +12,64 @@ redirect_from:
   - "docs/tutorial-zh-CN.html"
 ---
 
-## Before We Start
+## 시작하기 전에
 
-### What We're Building
+### 무엇을 구현할 것인가
 
-Today, we're going to build an interactive tic-tac-toe game.
+대화형 틱택토 게임을 구현하려고 합니다.
 
-If you like, you can check out the final result here: [Final Result](https://codepen.io/gaearon/pen/gWWZgR?editors=0010). Don't worry if the code doesn't make sense to you yet, or if it uses an unfamiliar syntax. We will be learning how to build this game step by step throughout this tutorial.
+원한다면 최종 결과물을 [여기](https://codepen.io/gaearon/pen/gWWZgR?editors=0010)에서 확인할 수 있습니다. 아직 코드가 이해되지 않거나 문법이 낯설어도 걱정하지 마세요. 튜토리얼에서 차근차근 틱택토 게임을 구현하는 방법을 배울테니까요.
 
-Try playing the game. You can also click on a button in the move list to go "back in time" and see what the board looked like just after that move was made.
+게임을 플레이해보세요. 이동 목록에 있는 버튼을 클릭하여 "클릭한 때로" 이동하고, 이동이 이루어진 직후 보드가 어떻게 보이는지 확인할 수 있습니다.
 
-Once you get a little familiar with the game, feel free to close that tab, as we'll start from a simpler template in the next sections.
+게임에 익숙해지셨다면 탭을 닫으세요. 다음 섹션에서 간단한 템플릿을 가지고 시작할 것입니다.
 
-### Prerequisites
+### 사전 준비
 
-We'll assume some familiarity with HTML and JavaScript, but you should be able to follow along even if you haven't used them before.
+HTML과 JavaScript에 익숙할 것으로 생각합니다. 하지만 HTML과 JavaScript를 사용해본 적이 없더라도 튜토리얼을 따를 수 있어야 합니다.
 
-If you need a refresher on JavaScript, we recommend reading [this guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript). Note that we're also using some features from ES6, a recent version of JavaScript. In this tutorial, we're using [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), [classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), [`let`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let), and [`const`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const) statements. You can use the [Babel REPL](babel://es5-syntax-example) to check what ES6 code compiles to.
+JavaScript를 다시 봐야한다면 [이 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)를 추천합니다. 튜토리얼에서 JavaScript의 최신 버전인 ES6의 몇 가지 특징들인 [화살표 함수](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), [클래스](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), [let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let), [const](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)를 사용할 것입니다. [Babel REPL](https://babeljs.io/repl/#?presets=react&code_lz=MYewdgzgLgBApgGzgWzmWBeGAeAFgRgD4AJRBEAGhgHcQAnBAEwEJsB6AwgbgChRJY_KAEMAlmDh0YWRiGABXVOgB0AczhQAokiVQAQgE8AkowAUPGDADkdECChWeASl4AlOMOBQAIgHkAssp0aIySpogoaFBUQmISdC48QA)을 사용하여 ES6 코드가 어떻게 컴파일되는지 확인해볼 수 있습니다.
 
-### How to Follow Along
+### 튜토리얼을 공부하는 방법
 
-There are two ways to complete this tutorial: you could either write the code right in the browser, or you could set up a local development environment on your machine. You can choose either option depending on what you feel comfortable with.
+튜토리얼을 공부하기 위한 두 가지 방법이 있습니다. 브라우저에서 코드를 작성하거나 컴퓨터의 로컬 개발 환경을 설치할 수 있습니다. 편한 방법을 선택하여 공부하시면 됩니다.
 
-#### If You Prefer to Write Code in the Browser
+#### 브라우저에서 코드를 작성하기 원한다면
 
-This is the quickest way to get started!
+가장 빠르게 시작할 수 있습니다!
 
-First, open this [starter code](https://codepen.io/gaearon/pen/oWWQNa?editors=0010) in a new tab. It should display an empty tic-tac-toe field. We will be editing that code during this tutorial.
+새로운 탭에서 [시작 코드](https://codepen.io/gaearon/pen/oWWQNa?editors=0010)를 여세요. 빈 틱택토 필드를 볼 수 있습니다. 튜토리얼에서는 이 코드를 수정하여 진행합니다.
 
-You can now skip the next section about setting up a local development environment and head straight to the [overview](#overview).
+다음 섹션인 로컬 개발 환경 설정을 스킵할 수 있습니다. 바로 [개요 섹션](#overview)으로 넘어가세요.
 
-#### If You Prefer to Write Code in Your Editor
+#### 사용하던 데이터에서 코드를 작성하기 원한다면
 
-Alternatively, you can set up a project on your computer.
+다른 방법으로 사용하는 컴퓨터에 프로젝트를 설치할 수 있습니다.
 
-Note: **this is completely optional and not required for this tutorial!**
+**이 방법은 필수가 아닌 선택 사항입니다!**
 
-This is more work, but lets you work from the comfort of your editor.
+더 많은 준비 작업이 필요하지만 에디터의 편리함을 누리며 공부할 수 있습니다.
 
-If you want to do it, here are the steps to follow:
+만약 이 방법으로 공부하기를 원한다면 필요한 단계들이 있습니다:
 
-1. Make sure you have a recent version of [Node.js](https://nodejs.org/en/) installed.
-2. Follow the [installation instructions](/docs/installation.html#creating-a-new-application) to create a new project.
+1. 설치된 [`Node.js`](https://nodejs.org/en/)가 최신 버전인지 확인해보세요.
+2. 새로운 프로젝트를 생성하기 위해 [설치 방법](https://reactjs.org/docs/add-react-to-a-new-app.html)을 따르세요.
 
-```bash
-npm install -g create-react-app
-create-react-app my-app
+```shell
+$ npm install -g create-react-app
+$ create-react-app my-app
 ```
 
-3. Delete all files in the `src/` folder of the new project (don't delete the folder, just its contents).
+1. 새 프로젝트의 `src/` 폴더에 있는 모든 파일들을 삭제해주세요. (폴더 안의 내용만 삭제하되 폴더는 삭제하지 마세요)
 
-```bash
-cd my-app
-rm -f src/*
+```shell
+$ cd my-app
+$ rm -f src/*
 ```
 
-4. Add a file named `index.css` in the `src/` folder with [this CSS code](https://codepen.io/gaearon/pen/oWWQNa?editors=0100).
-
-5. Add a file named `index.js` in the `src/` folder with [this JS code](https://codepen.io/gaearon/pen/oWWQNa?editors=0010).
-
-6. Add these three lines to the top of `index.js` in the `src/` folder:
+1. [이 CSS 코드](https://codepen.io/gaearon/pen/oWWQNa?editors=0100)를 `src/` 폴더에 `index.css` 파일로 추가해주세요.
+2. [이 JS 코드](https://codepen.io/gaearon/pen/oWWQNa?editors=0010)를 `src/` 폴더에 `index.js` 파일로 추가해주세요.
+3. `src/` 폴더에 있는 `index.js`의 최상단에 아래 세 줄을 추가해주세요.
 
 ```js
 import React from 'react';
@@ -79,15 +77,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 ```
 
-Now if you run `npm start` in the project folder and open `http://localhost:3000` in the browser, you should see an empty tic-tac-toe field.
+이제 프로젝트 폴더에서 `npm start` 명령어를 실행하고 브라우저에서 `http://localhost:3000`를 여세요. 빈 틱택토 필드를 볼 수 있습니다.
 
-We recommend following [these instructions](http://babeljs.io/docs/editors) to configure syntax highlighting for your editor.
+에디터에서 문법 하이라이팅 설정을 하고 싶다면 [이 문서](http://babeljs.io/docs/editors)를 따르세요.
 
-### Help, I'm Stuck!
+### 도와주세요! 막히는 부분이 있어요!
 
-If you get stuck, check out the [community support resources](/community/support.html). In particular, [Reactiflux chat](/community/support.html#reactiflux-chat) is a great way to get quick help. If you don't get a good answer anywhere, please file an issue, and we'll help you out.
+막히는 부분이 생겼다면 [지원하는 커뮤니티](https://reactjs.org/community/support.html)를 확인해보세요. 특히 [Reactiflux chat](https://reactjs.org/community/support.html#reactiflux-chat)은 빠르게 도움을 받을 수 있는 좋은 방법입니다. 어떤 커뮤니티에서도 필요한 대답을 듣지 못했다면 이슈를 제출하세요. 우리가 도와드립니다.
 
-With this out of the way, let's get started!
+다 끝났으면 시작해봅시다!
 
 ## Overview
 
