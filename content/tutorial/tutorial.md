@@ -1,6 +1,6 @@
 ---
 id: tutorial
-title: "Tutorial: Intro To React"
+title: "튜토리얼: React 시작하기"
 layout: tutorial
 sectionid: tutorial
 permalink: tutorial/tutorial.html
@@ -12,66 +12,64 @@ redirect_from:
   - "docs/tutorial-zh-CN.html"
 ---
 
-## Before We Start
+## 시작하기 전에
 
-### What We're Building
+### 무엇을 구현할 것인가
 
-Today, we're going to build an interactive tic-tac-toe game.
+대화형 틱택토 게임을 구현하려고 합니다.
 
-If you like, you can check out the final result here: [Final Result](https://codepen.io/gaearon/pen/gWWZgR?editors=0010). Don't worry if the code doesn't make sense to you yet, or if it uses an unfamiliar syntax. We will be learning how to build this game step by step throughout this tutorial.
+원한다면 최종 결과물을 [여기](https://codepen.io/gaearon/pen/gWWZgR?editors=0010)에서 확인할 수 있습니다. 아직 코드가 이해되지 않거나 문법이 낯설어도 걱정하지 마세요. 튜토리얼에서 차근차근 틱택토 게임을 구현하는 방법을 배울테니까요.
 
-Try playing the game. You can also click on a button in the move list to go "back in time" and see what the board looked like just after that move was made.
+게임을 플레이해보세요. 이동 목록에 있는 버튼을 클릭하여 "클릭한 때로" 이동하고, 이동이 이루어진 직후 보드가 어떻게 보이는지 확인할 수 있습니다.
 
-Once you get a little familiar with the game, feel free to close that tab, as we'll start from a simpler template in the next sections.
+게임에 익숙해지셨다면 탭을 닫으세요. 다음 섹션에서 간단한 템플릿을 가지고 시작할 것입니다.
 
-### Prerequisites
+### 사전 준비
 
-We'll assume some familiarity with HTML and JavaScript, but you should be able to follow along even if you haven't used them before.
+HTML과 JavaScript에 익숙할 것으로 생각합니다. 하지만 HTML과 JavaScript를 사용해본 적이 없더라도 튜토리얼을 따를 수 있어야 합니다.
 
-If you need a refresher on JavaScript, we recommend reading [this guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript). Note that we're also using some features from ES6, a recent version of JavaScript. In this tutorial, we're using [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), [classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), [`let`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let), and [`const`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const) statements. You can use the [Babel REPL](babel://es5-syntax-example) to check what ES6 code compiles to.
+JavaScript를 다시 봐야한다면 [이 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)를 추천합니다. 튜토리얼에서 JavaScript의 최신 버전인 ES6의 몇 가지 특징들인 [화살표 함수](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), [클래스](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), [let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let), [const](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)를 사용할 것입니다. [Babel REPL](babel://es5-syntax-example)을 사용하여 ES6 코드가 어떻게 컴파일되는지 확인해볼 수 있습니다.
 
-### How to Follow Along
+### 튜토리얼을 공부하는 방법
 
-There are two ways to complete this tutorial: you could either write the code right in the browser, or you could set up a local development environment on your machine. You can choose either option depending on what you feel comfortable with.
+튜토리얼을 공부하기 위한 두 가지 방법이 있습니다. 브라우저에서 코드를 작성하거나 컴퓨터의 로컬 개발 환경을 설치할 수 있습니다. 편한 방법을 선택하여 공부하시면 됩니다.
 
-#### If You Prefer to Write Code in the Browser
+#### 브라우저에서 코드를 작성하기 원한다면
 
-This is the quickest way to get started!
+가장 빠르게 시작할 수 있습니다!
 
-First, open this [starter code](https://codepen.io/gaearon/pen/oWWQNa?editors=0010) in a new tab. It should display an empty tic-tac-toe field. We will be editing that code during this tutorial.
+새로운 탭에서 [시작 코드](https://codepen.io/gaearon/pen/oWWQNa?editors=0010)를 여세요. 빈 틱택토 필드를 볼 수 있습니다. 튜토리얼에서는 이 코드를 수정하여 진행합니다.
 
-You can now skip the next section about setting up a local development environment and head straight to the [overview](#overview).
+다음 섹션인 로컬 개발 환경 설정을 스킵할 수 있습니다. 바로 [개요 섹션](#overview)으로 넘어가세요.
 
-#### If You Prefer to Write Code in Your Editor
+#### 사용하던 데이터에서 코드를 작성하기 원한다면
 
-Alternatively, you can set up a project on your computer.
+다른 방법으로 사용하는 컴퓨터에 프로젝트를 설치할 수 있습니다.
 
-Note: **this is completely optional and not required for this tutorial!**
+**이 방법은 필수가 아닌 선택 사항입니다!**
 
-This is more work, but lets you work from the comfort of your editor.
+더 많은 준비 작업이 필요하지만 에디터의 편리함을 누리며 공부할 수 있습니다.
 
-If you want to do it, here are the steps to follow:
+만약 이 방법으로 공부하기를 원한다면 필요한 단계들이 있습니다:
 
-1. Make sure you have a recent version of [Node.js](https://nodejs.org/en/) installed.
-2. Follow the [installation instructions](/docs/installation.html#creating-a-new-application) to create a new project.
+1. 설치된 [`Node.js`](https://nodejs.org/en/)가 최신 버전인지 확인해보세요.
+2. 새로운 프로젝트를 생성하기 위해 [설치 방법](/docs/installation.html#creating-a-new-application)을 따르세요.
 
-```bash
-npm install -g create-react-app
-create-react-app my-app
+```shell
+$ npm install -g create-react-app
+$ create-react-app my-app
 ```
 
-3. Delete all files in the `src/` folder of the new project (don't delete the folder, just its contents).
+3. 새 프로젝트의 `src/` 폴더에 있는 모든 파일들을 삭제해주세요. (폴더 안의 내용만 삭제하되 폴더는 삭제하지 마세요)
 
-```bash
-cd my-app
-rm -f src/*
+```shell
+$ cd my-app
+$ rm -f src/*
 ```
 
-4. Add a file named `index.css` in the `src/` folder with [this CSS code](https://codepen.io/gaearon/pen/oWWQNa?editors=0100).
-
-5. Add a file named `index.js` in the `src/` folder with [this JS code](https://codepen.io/gaearon/pen/oWWQNa?editors=0010).
-
-6. Add these three lines to the top of `index.js` in the `src/` folder:
+4. [이 CSS 코드](https://codepen.io/gaearon/pen/oWWQNa?editors=0100)를 `src/` 폴더에 `index.css` 파일로 추가해주세요.
+5. [이 JS 코드](https://codepen.io/gaearon/pen/oWWQNa?editors=0010)를 `src/` 폴더에 `index.js` 파일로 추가해주세요.
+6. `src/` 폴더에 있는 `index.js`의 최상단에 아래 세 줄을 추가해주세요.
 
 ```js
 import React from 'react';
@@ -79,23 +77,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 ```
 
-Now if you run `npm start` in the project folder and open `http://localhost:3000` in the browser, you should see an empty tic-tac-toe field.
+이제 프로젝트 폴더에서 `npm start` 명령어를 실행하고 브라우저에서 `http://localhost:3000`를 여세요. 빈 틱택토 필드를 볼 수 있습니다.
 
-We recommend following [these instructions](http://babeljs.io/docs/editors) to configure syntax highlighting for your editor.
+에디터에서 문법 하이라이팅 설정을 하고 싶다면 [이 문서](http://babeljs.io/docs/editors)를 따르세요.
 
-### Help, I'm Stuck!
+### 도와주세요! 막히는 부분이 있어요!
 
-If you get stuck, check out the [community support resources](/community/support.html). In particular, [Reactiflux chat](/community/support.html#reactiflux-chat) is a great way to get quick help. If you don't get a good answer anywhere, please file an issue, and we'll help you out.
+막히는 부분이 생겼다면 [지원하는 커뮤니티](/community/support.html)를 확인해보세요. 특히 [Reactiflux chat](/community/support.html#reactiflux-chat)은 빠르게 도움을 받을 수 있는 좋은 방법입니다. 어떤 커뮤니티에서도 필요한 대답을 듣지 못했다면 이슈를 제출하세요. 우리가 도와드립니다.
 
-With this out of the way, let's get started!
+다 끝났으면 시작해봅시다!
 
-## Overview
+## 개요
 
-### What is React?
+### React란 무엇인가요?
 
-React is a declarative, efficient, and flexible JavaScript library for building user interfaces.
+React는 유저 인터페이스 구현을 위한 선언적이고 효율적이며 유연한 JavaScript 라이브러리입니다.
 
-React has a few different kinds of components, but we'll start with `React.Component` subclasses:
+React는 여러 종류의 컴포넌트들을 가지고 있지만 우리는 `React.Component`의 서브클래스를 사용하여 시작할 것입니다:
 
 ```javascript
 class ShoppingList extends React.Component {
@@ -116,11 +114,11 @@ class ShoppingList extends React.Component {
 // Example usage: <ShoppingList name="Mark" />
 ```
 
-We'll get to the funny XML-like tags in a second. Your components tell React what you want to render – then React will efficiently update and render just the right components when your data changes.
+XML과 비슷한 재밌는 태그들을 사용할 것입니다. 작성한 컴포넌트는 React에게 무엇을 랜더링하고 싶은지 알려줍니다. 그러면 React는 데이터가 변경될 때 올바른 컴포넌트들을 업데이트하고 랜더링합니다. 
 
-Here, ShoppingList is a **React component class**, or **React component type**. A component takes in parameters, called `props`, and returns a hierarchy of views to display via the `render` method.
+여기에서 ShoppingList는 **React 컴포넌트 클래스** 혹은 **React 컴포넌트 타입**입니다. 하나의 컴포넌트는 `props`라 불리는 파라미터를 사용하고, `render` 메서드를 통해 표시할 뷰 계층 구조를 반환합니다.
 
-The `render` method returns a *description* of what you want to render, and then React takes that description and renders it to the screen. In particular, `render` returns a **React element**, which is a lightweight description of what to render. Most React developers use a special syntax called JSX which makes it easier to write these structures. The `<div />` syntax is transformed at build time to `React.createElement('div')`. The example above is equivalent to:
+`render` 메서드는 랜더링하길 원하는 *내용*을 반환하면 React는 그 내용을 가져와 스크린에 랜더링합니다. 특히 `render`는 **React 엘리먼트**를 반환하는데 이는 랜더링 할 부분에 대한 간단한 내용입니다. 대부분의 React 개발자들은 이 구조를 더 쉽게 작성할 수 있게 해주는 JSX라는 특별한 문법을 사용합니다. `<div />`라 쓰면 빌드 시 `React.createElement('div')`로 변환됩니다. 위의 코드는 아래의 코드와 동일합니다:
 
 ```javascript
 return React.createElement('div', {className: 'shopping-list'},
@@ -129,33 +127,34 @@ return React.createElement('div', {className: 'shopping-list'},
 );
 ```
 
-[See full expanded version.](babel://tutorial-expanded-version)
+[전체 코드는 여기에서 볼 수 있습니다.](babel://tutorial-expanded-version)
 
-If you're curious, `createElement()` is described in more detail in the [API reference](/docs/react-api.html#createelement), but we won't be using it directly in this tutorial. Instead, we will keep using JSX.
 
-You can put any JavaScript expression within braces inside JSX. Each React element is a real JavaScript object that you can store in a variable or pass around your program.
+`createdElement()`에 대해 더 많은 내용이 궁금하다면 [API reference](/docs/react-api.html#createelement)에 자세한 설명이 있습니다. 튜토리얼에서는 `createdElement()`를 직접적으로 사용하지 않습니다. 그 대신 JSX를 사용할 것입니다.
 
-The `ShoppingList` component only renders built-in DOM components, but you can compose custom React components just as easily, by writing `<ShoppingList />`. Each component is encapsulated so it can operate independently, which allows you to build complex UIs out of simple components.
+JSX에서는 중괄호 안에 JavaScript 문법을 사용할 수 있습니다. 각 React 엘리먼트는 변수에 저장하거나 프로그램 여기저기에 전달할 수 있는 실제 JavaScript 객체입니다.
 
-### Getting Started
+`ShoppingList` 컴포넌트는 내장된 DOM 컴포넌트만 랜더링하지만 `<ShoppingList />` 코드를 작성하여 커스텀 React 컴포넌트를 쉽게 구성할 수 있습니다. 각 컴포넌트는 캡슐화되어 독립적으로 동작할 수 있기 때문에 간단한 컴포넌트들로 복잡한 UI를 구현할 수 있습니다.
 
-Start with this example: [Starter Code](https://codepen.io/gaearon/pen/oWWQNa?editors=0010).
+### 시작하기
 
-It contains the shell of what we're building today. We've provided the styles so you only need to worry about the JavaScript.
+[시작 코드](https://codepen.io/gaearon/pen/oWWQNa?editors=0010)를 가지고 시작해봅시다.
 
-In particular, we have three components:
+이 코드는 우리가 구현할 틱택토 게임의 틀을 가지고 있습니다. 필요한 스타일들을 준비해두었기 때문에 JavaScript만 신경쓰면 됩니다.
+
+세 가지 컴포넌트로 구성되어 있습니다:
 
 * Square
 * Board
 * Game
 
-The Square component renders a single `<button>`, the Board renders 9 squares, and the Game component renders a board with some placeholders that we'll fill in later. None of the components are interactive at this point.
+Square 컴포넌트는 하나의 `<button>`을 랜더링합니다. Board 컴포넌트는 9개의 사각형을 랜더링합니다. Game 컴포넌트는 나중에 우리가 채워 넣어야 할 공백이 있는 하나의 보드를 랜더링합니다. 지금 이 컴포넌트들은 아무런 동작도 하지 않습니다.
 
-### Passing Data Through Props
+### props를 통해 데이터 전달하기
 
-Just to get our feet wet, let's try passing some data from the Board component to the Square component.
+본격적으로 시작하기 위해 데이터를 Board 컴포넌트에서 Square 컴포넌트로 전달해봅시다.
 
-In Board's `renderSquare` method, change the code to pass a `value` prop to the Square:
+Board의 `renderSquare` 메서드에서 Square 컴포넌트 prop에 `value` 값을 전달하도록 코드를 변경해주세요:
 
 ```js{3}
 class Board extends React.Component {
@@ -163,8 +162,7 @@ class Board extends React.Component {
     return <Square value={i} />;
   }
 ```
-
-Then change Square's `render` method to show that value by replacing `{/* TODO */}` with `{this.props.value}`:
+value 값을 보여주기 위해 Square 컴포넌트의 `render` 메서드 안의 코드 `{/* TODO */}`를 `{this.props.value}`로 변경해주세요:
 
 ```js{5}
 class Square extends React.Component {
@@ -178,19 +176,19 @@ class Square extends React.Component {
 }
 ```
 
-Before:
+변경 전:
 
 ![React Devtools](../images/tutorial/tictac-empty.png)
 
-After: You should see a number in each square in the rendered output.
+변경 후: 랜더링된 결과에서는 각 사각형 안에 숫자가 표시됩니다.
 
 ![React Devtools](../images/tutorial/tictac-numbers.png)
 
-[View the current code.](https://codepen.io/gaearon/pen/aWWQOG?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/aWWQOG?editors=0010)
 
-### An Interactive Component
+### 대화형 컴포넌트
 
-Let's make the Square component fill in an "X" when you click it. Try changing the button tag returned in the `render()` function of the Square like this:
+클릭 시 "X"로 채워지는 Square 컴포넌트를 만들어봅시다. Square의 `render()` 함수에서 반환된 버튼 태그를 다음과 같이 변경해주세요:
 
 ```javascript{4}
 class Square extends React.Component {
@@ -204,13 +202,13 @@ class Square extends React.Component {
 }
 ```
 
-If you click on a square now, you should get an alert in your browser.
+이제 사각형을 클릭하면 브라우저에서 알럿창이 뜨는걸 확인할 수 있습니다.
 
-This uses the new JavaScript [arrow function](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions) syntax. Note that we're passing a function as the `onClick` prop. Doing `onClick={alert('click')}` would alert immediately instead of when the button is clicked.
+새로운 JavaScript 문법인 [화살표 함수](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions)를 사용하였습니다. `onClick` prop에 함수를 전달하였습니다. `onClick={alert('click')}` 코드를 작성하고 버튼을 클릭하면 알럿창 대신 경고가 뜨게됩니다.
 
-React components can have state by setting `this.state` in the constructor, which should be considered private to the component. Let's store the current value of the square in state, and change it when the square is clicked.
+React 컴포넌트는 생성자에서 `this.state`를 설정하여 state를 가질 수 있고 state는 컴포넌트에서 private으로 간주되어야 합니다. 사각형의 현재 value 값을 상태에 저장하고 클릭할 때 바뀌도록 만들어봅시다.
 
-First, add a constructor to the class to initialize the state:
+먼저 state를 초기화하기 위해 클래스에 생성자를 추가해주세요:
 
 ```javascript{2-7}
 class Square extends React.Component {
@@ -231,14 +229,14 @@ class Square extends React.Component {
 }
 ```
 
-In [JavaScript classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), you need to explicitly call `super();` when defining the constructor of a subclass.
+[JavaScript 클래스](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)에서 서브클래스의 생성자를 정의할 때 `super();` 메서드를 명시적으로 호출해줘야 합니다.
 
-Now change the Square `render` method to display the value from the current state, and to toggle it on click:
+이제 Square의 `render` 메서드에서 현재 상태의 value 값을 표시하고 클릭할 때 바뀌도록 수정해주세요.
 
-* Replace `this.props.value` with `this.state.value` inside the `<button>` tag.
-* Replace the `() => alert()` event handler with `() => this.setState({value: 'X'})`.
+* `<button>` 태그 안의 `this.props.value` 를 `this.state.value`로 변경해주세요.
+* () => alert() 이벤트 핸들러를 () => this.setState({value: 'X'})로 변경해주세요.
 
-Now the `<button>` tag looks like this:
+`<button>` 태그는 다음과 같습니다:
 
 ```javascript{10-12}
 class Square extends React.Component {
@@ -259,40 +257,40 @@ class Square extends React.Component {
 }
 ```
 
-Whenever `this.setState` is called, an update to the component is scheduled, causing React to merge in the passed state update and rerender the component along with its descendants. When the component rerenders, `this.state.value` will be `'X'` so you'll see an X in the grid.
+`this.setState`가 호출될 때마다 컴포넌트가 업데이트되므로 업데이트된 state가 전달되어 React가 이를 병합하고 하위 컴포넌트와 함께 다시 랜더링합니다. 컴포넌트가 랜더링될 때 `this.state.value`는 `'X'`가 되어 그리드 안에 X가 보이게 됩니다.
 
-If you click on any square, an X should show up in it.
+이제 사각형을 클릭하면 그 안에 X가 표시됩니다.
 
-[View the current code.](https://codepen.io/gaearon/pen/VbbVLg?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/VbbVLg?editors=0010)
 
-### Developer Tools
+### 개발자 도구
 
-The React Devtools extension for [Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/) lets you inspect a React component tree in your browser devtools.
+[크롬](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)과 [파이어폭스](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/)의 React 개발자 도구 확장 프로그램은 React 컴포넌트 트리를 브라우저의 개발자 도구 안에서 검사할 수 있게 해줍니다.
 
 <img src="../images/tutorial/devtools.png" alt="React Devtools" style="max-width: 100%">
 
-It lets you inspect the props and state of any of the components in your tree.
+트리 안에 있는 컴포넌트들의 props와 state를 검사할 수 있습니다.
 
-After installing it, you can right-click any element on the page, click "Inspect" to open the developer tools, and the React tab will appear as the last tab to the right.
+설치 후 페이지에서 검사하길 원하는 컴포넌트를 마우스 오른쪽 클릭하고 "Inspect"를 클릭하여 개발자 도구를 열면 오른쪽 마지막 탭에 React 탭이 보입니다.
 
-**However, note there are a few extra steps to get it working with CodePen:**
+**CodePen을 사용하여 이 확장 프로그램을 동작시키고 싶다면 추가적으로 필요한 작업들이 있습니다.****
 
-1. Log in or register and confirm your email (required to prevent spam).
-2. Click the "Fork" button.
-3. Click "Change View" and then choose "Debug mode".
-4. In the new tab that opens, the devtools should now have a React tab.
+1. 로그인 혹은 회원가입을 하고 이메일을 인증받으세요.
+2. "Fork" 버튼을 클릭하세요.
+3. "Change View"를 클릭하고 "Debug mode"를 선택하세요.
+4. 새롭게 열린 탭에서 React 탭이 있는 개발자 도구를 볼 수 있습니다.
 
-## Lifting State Up
+## state 들어올리기
 
-We now have the basic building blocks for a tic-tac-toe game. But right now, the state is encapsulated in each Square component. To make a fully-working game, we now need to check if one player has won the game, and alternate placing X and O in the squares. To check if someone has won, we'll need to have the value of all 9 squares in one place, rather than split up across the Square components.
+이제 틱택토 게임을 위한 기본 블록들이 있습니다. 하지만 아직 각 Square 컴포넌트 안에 state들이 캡슐화되어 있습니다. 더 원활하게 동작하는 게임을 만들기 위해 한 플레이어가 게임에서 이겼는지를 확인하고 사각형 안에 X와 O를 번갈아 표시해야 합니다. 누가 게임에서 이겼는지 확인하기 위해 Square 컴포넌트들로 쪼개지 않고 한 장소에서 9개의 사각형의 value 값을 모두 가지고 있어야 합니다.
 
-You might think that Board should just inquire what the current state of each Square is. Although it is technically possible to do this in React, it is discouraged because it tends to make code difficult to understand, more brittle, and harder to refactor.
+Board가 각 Square의 현재 상태가 무엇인지만 확인해야 한다고 생각할 수도 있습니다. 이 방법은 기술적으로 React에서 가능하기는 하나 코드를 이해하기 어렵고 불안정하여 리팩토링을 하기 힘들게 만듭니다.
 
-Instead, the best solution here is to store this state in the Board component instead of in each Square – and the Board component can tell each Square what to display, like how we made each square display its index earlier.
+각 Square에 state를 저장하는 대신에 Board 컴포넌트에 이 state를 저장하는 것이 가장 좋은 방법입니다. 이 Board 컴포넌트는 이전에 각 사각형에 인덱스를 표시한 방법과 동일한 방법으로 무엇을 표시할지 각 Square에게 알릴 수 있습니다.
 
-**When you want to aggregate data from multiple children or to have two child components communicate with each other, move the state upwards so that it lives in the parent component. The parent can then pass the state back down to the children via props, so that the child components are always in sync with each other and with the parent.**
+**여러 하위 컴포넌트로부터 데이터를 모으거나 두 개의 하위 컴포넌트들이 서로 통신하기를 원한다면 상위 컴포넌트 안으로 state를 이동시키세요. 상위 컴포넌트는 props를 통해 하위 컴포넌트로 state를 전달해줄 수 있습니다. 그러면 하위 컴포넌트들은 항상 하위 컴포넌트나 상위 컴포넌트와 동기될 수 있습니다.**
 
-Pulling state upwards like this is common when refactoring React components, so let's take this opportunity to try it out. Add a constructor to the Board and set its initial state to contain an array with 9 nulls, corresponding to the 9 squares:
+이와 같이 state를 상위 컴포넌트로 들어올리는 것은 React 컴포넌트들을 리팩토링할 때 가장 많이 사용하는 방법입니다. 이 기회를 통해 연습해봅시다. Board에 생성자를 추가하고 9개의 사각형과 일치하는 9개의 null을 가진 배열을 포함한 상태로 초기화하세요:
 
 ```javascript{2-7}
 class Board extends React.Component {
@@ -334,7 +332,7 @@ class Board extends React.Component {
 }
 ```
 
-We'll fill it in later so that a board looks something like
+나중에 이것은 다음과 같이 생긴 보드로 채우게됩니다.
 
 ```javascript
 [
@@ -344,7 +342,7 @@ We'll fill it in later so that a board looks something like
 ]
 ```
 
-Board's `renderSquare` method currently looks like this:
+현재 Board의 `renderSquare` 메서드는 다음과 같습니다:
 
 ```javascript
   renderSquare(i) {
@@ -352,7 +350,7 @@ Board's `renderSquare` method currently looks like this:
   }
 ```
 
-Modify it to pass a `value` prop to Square.
+Square에 `value` prop를 전달하도록 수정하세요.
 
 ```javascript{2}
   renderSquare(i) {
@@ -360,11 +358,11 @@ Modify it to pass a `value` prop to Square.
   }
 ```
 
-[View the current code.](https://codepen.io/gaearon/pen/gWWQPY?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/gWWQPY?editors=0010)
 
-Now we need to change what happens when a square is clicked. The Board component now stores which squares are filled, which means we need some way for Square to update the state of Board. Since component state is considered private, we can't update Board's state directly from Square.
+이제 우리는 사각형을 클릭했을 때의 동작을 수정해야 합니다. Board 컴포넌트는 어떤 사각형이 채워졌는지 저장하고 있습니다. 그렇기 때문에 Square를 Board가 가지고 있는 state로 업데이트할 방법이 필요합니다. 사각형의 컴포넌트 state가 각자 정의되고 있기 때문에 Board가 Square의 state를 가지고올 수 없습니다.
 
-The usual pattern here is pass down a function from Board to Square that gets called when the square is clicked. Change `renderSquare` in Board again so that it reads:
+보통의 패턴은 사각형이 클릭될 때 호출될 함수를 Board로부터 Square에 전달하는 것입니다. Board 안의 `renderSquare`를 다시 변경해봅시다:
 
 ```javascript{5}
   renderSquare(i) {
@@ -377,15 +375,15 @@ The usual pattern here is pass down a function from Board to Square that gets ca
   }
 ```
 
-We split the returned element into multiple lines for readability, and added parentheses around it so that JavaScript doesn't insert a semicolon after `return` and break our code.
+가독성을 위해 `return` 안의 요소들을 여러 줄로 나누고, 괄호를 추가하여 JavaScript가 세미콜론 없이 코드를 마무리하도록 했습니다.
 
-Now we're passing down two props from Board to Square: `value` and `onClick`. The latter is a function that Square can call. Let's make the following changes to Square:
+Board에서 Square로 `value`와 `onClick` 두 개의 props를 전달합니다. `onClick`은 Square가 호출할 수 있는 함수입니다. Square을 변경하기 위해 다음의 변경 사항을 구현하세요.
 
-* Replace `this.state.value` with `this.props.value` in Square's `render`.
-* Replace `this.setState()` with `this.props.onClick()` in Square's `render`.
-* Delete `constructor` definition from Square because it doesn't have state anymore.
+* Square의 `rennder`에 있는 `this.state.value` 를 `this.props.value`로 변경하세요.
+* Square의 `rennder`에 있는 `this.setState()` 를 `this.props.onClick()`로 변경하세요.
+* 더이상 Square가 state를 가지지 않도록 Square에 정의한 `constructor`를 삭제하세요.
 
-After these changes, the whole Square component looks like this:
+변경 사항을 구현한 Square 컴포넌트는 다음과 같습니다:
 
 ```javascript{1,2,4,5}
 class Square extends React.Component {
@@ -399,17 +397,17 @@ class Square extends React.Component {
 }
 ```
 
-Now when the square is clicked, it calls the `onClick` function that was passed by Board. Let's recap what happens here:
+이제 사각형이 클릭될 때 Board로부터 전달되는 `onClick` 함수를 호출합니다. 어떤 일이 일어나는지 되짚어봅시다:
 
-1. The `onClick` prop on the built-in DOM `<button>` component tells React to set up a click event listener.
-2. When the button is clicked, React will call the `onClick` event handler defined in Square's `render()` method.
-3. This event handler calls `this.props.onClick()`. Square's props were specified by the Board.
-4. Board passed `onClick={() => this.handleClick(i)}` to Square, so, when called, it runs `this.handleClick(i)` on the Board.
-5. We have not defined the `handleClick()` method on the Board yet, so the code crashes.
+1. 내장된 DOM `<button>` 컴포넌트의 `onClick` prop는 React에게 클릭 이벤트 리스너를 설정하라고 알려줍니다.
+2. 버튼이 클릭될 때 React는 Square의 `render()` 메서드 안에 정의된 `onClick` 이벤트 핸들러를 호출합니다.
+3. 이 이벤트 핸들러는 `this.props.onClick()`을 호출합니다. Square의 props는 Board에서 명시한 것입니다.
+4. Board는 `onClick={() => this.handleClick(i)}`을 Square에 전달하고, 호출될 때 Board의 `this.handleClick(i)`가 동작합니다.
+5. Board에 있는 `handleClick()` 메서드는 아직 정의되지 않았으므로 코드는 오류가 발생합니다.
 
-Note that DOM `<button>` element's `onClick` attribute has a special meaning to React, but we could have named Square's `onClick` prop or Board's `handleClick` method differently. It is, however, conventional in React apps to use `on*` names for the attributes and `handle*` for the handler methods.
+DOM `<button>` 엘리멘트의 `onClick` 속성은 React에서 특별한 의미를 가지지만 Square의 `onClick` prop나 Board의 `handleClick` 메서드는 다른 이름으로 설정할 수 있습니다. React 애플리케이션에서는 속성에 `on*` 이름을 사용하고 핸들러 메서드에 `handle*`을 사용하여 처리하는 것이 일반적입니다.
 
-Try clicking a square – you should get an error because we haven't defined `handleClick` yet. Add it to the Board class.
+사각형을 클릭해봅시다. `handleClick`을 아직 정의하지 않았으로 에러가 발생합니다. Board 클래스에 `handleClick` 메서드를 추가해봅시다.
 
 ```javascript{9-13}
 class Board extends React.Component {
@@ -462,28 +460,28 @@ class Board extends React.Component {
 }
 ```
 
-[View the current code.](https://codepen.io/gaearon/pen/ybbQJX?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/ybbQJX?editors=0010)
 
-We call `.slice()` to copy the `squares` array instead of mutating the existing array. Jump ahead a [section](/tutorial/tutorial.html#why-immutability-is-important) to learn why immutability is important.
+기존의 배열을 변경하는 대신 squares 배열을 복사하는 `.slice()`를 호출합니다. 왜 불변성이 중요한지 알고 싶다면 [이 섹션](/tutorial/tutorial.html#why-immutability-is-important)으로 이동해주세요.
 
-Now you should be able to click in squares to fill them again, but the state is stored in the Board component instead of in each Square, which lets us continue building the game. Note how whenever Board's state changes, the Square components rerender automatically.
+이제 사각형을 클릭하여 다시 사각형을 채울 수 있게되지만 state가 각 Square가 아닌 Board 컴포넌트에 저장되어 있어 게임을 계속 만들어 나가야 합니다. Board의 state가 변경될 때마다 Square 컴포넌트들은 자동으로 다시 랜더링됩니다.
 
-Square no longer keeps its own state; it receives its value from its parent Board and informs its parent when it's clicked. We call components like this **controlled components**.
+Square은 더 이상 각 state를 유지하지 않습니다. 이들은 상위 Board 컴포넌트로부터 데이터를 전달받고, 클릭될 때 알려줍니다. 우리는 이 **제어된 컴포넌트** 같은 컴포넌트들을 호출합니다.
 
-### Why Immutability Is Important
+### 왜 불변성이 중요할까요
 
-In the previous code example, we suggest using the `.slice()` operator to copy the `squares` array prior to making changes and to prevent mutating the existing array. Let's talk about what this means and why it is an important concept to learn.
+이전의 예제 코드에서 기존의 배열을 수정하지 않고 변경 사항을 반영하기 위해 `squares` 배열을 `.slice()` 연산자를 사용하여 복사하였습니다. 이는 무엇을 의미하며 왜 이 컨셉이 중요할까요.
 
-There are generally two ways for changing data. The first method is to *mutate* the data by directly changing the values of a variable. The second method is to replace the data with a new copy of the object that also includes desired changes.
+일반적으로 데이터를 변경하는 두 가지 방법이 있습니다. 첫 번째 방법은 변수의 값을 직접 변경하여 데이터를 `변경`하는 것입니다. 두 번째 방법은 원하는 내용이 포함된 객체의 새 복사본을 사용하여 데이터를 대체하는 것입니다.
 
-#### Data change with mutation
+#### 가변성을 사용한 데이터 변경
 ```javascript
 var player = {score: 1, name: 'Jeff'};
 player.score = 2;
 // Now player is {score: 2, name: 'Jeff'}
 ```
 
-#### Data change without mutation
+#### 가변성을 사용하지 않은 데이터 변경
 ```javascript
 var player = {score: 1, name: 'Jeff'};
 
@@ -494,29 +492,29 @@ var newPlayer = Object.assign({}, player, {score: 2});
 // var newPlayer = {...player, score: 2};
 ```
 
-The end result is the same but by not mutating (or changing the underlying data) directly we now have an added benefit that can help us increase component and overall application performance.
+가변성을 사용하지 않더라도(기본 데이터를 변경하여도) 결과적으로는 다를게 없습니다. 하지만 컴포넌트와 전체 애플리케이션의 성능을 향상시키는 장점이 있습니다.
 
-#### Easier Undo/Redo and Time Travel
+#### 쉽게 Undo/Redo와 시간 여행하기
 
-Immutability also makes some complex features much easier to implement. For example, further in this tutorial we will implement time travel between different stages of the game. Avoiding data mutations lets us keep a reference to older versions of the data, and switch between them if we need to.
+불변성은 이 복잡한 기능들을 훨씬 더 쉽게 구현할 수 있게 해줍니다. 예를 들어 이 튜토리얼에서 우리는 게임의 다른 단계들 사이에 시간 여행을 구현할 것입니다. 데이터 변경을 피하면 우리가 이전 버전의 데이터를 계속 참조할 수 있게 해주고 원할 때 변경할 수 있게 해줍니다.
 
-#### Tracking Changes
+#### 변경 사항 트래킹하기
 
-Determining if a mutated object has changed is complex because changes are made directly to the object. This then requires comparing the current object to a previous copy, traversing the entire object tree, and comparing each variable and value. This process can become increasingly complex.
+변할 수 있는 객체가 변경된 적이 있는지 아는 방법은 직접 객체를 변경하기 때문에 복잡합니다. 이전 버전을 가져오기 위해 전체의 객체 트리를 현재 버전과 비교하고 각 변수와 값들을 비교해야 합니다. 이 과정은 갈수록 복잡해집니다.
 
-Determining how an immutable object has changed is considerably easier. If the object being referenced is different from before, then the object has changed. That's it.
+변하지 않는 객체가 변경 사항이 있는지 아는 방법은 쉽습니다. 참조되고 있는 객체가 이전과 다르다면 이 객체는 변경된 것입니다. 이게 끝입니다.
 
-#### Determining When to Re-render in React
+#### React에서 언제 다시 랜더링할지 결정하기
 
-The biggest benefit of immutability in React comes when you build simple _pure components_. Since immutable data can more easily determine if changes have been made, it also helps to determine when a component requires being re-rendered.
+React에서 불변성의 가장 큰 장점은 간단한 *순수* 컴포넌트들이 다시 랜더링될 때를 결정하기 쉽다는 점입니다. 변하지 않는 데이터는 더 쉽게 변경 사항이 있는지 알 수 있기 때문에 컴포넌트가 언제 다시 랜더링을 할지 결정하기 쉽게 만들어줍니다.
 
-To learn more about `shouldComponentUpdate()` and how you can build *pure components* take a look at [Optimizing Performance](/docs/optimizing-performance.html#examples).
+`shouldComponentUpdate()`에 대해 더 배우고 싶고 어떻게 순수 컴포넌트들을 성능 최적화 할 수 있는지 알고 싶다면 [성능 최적화하기](/docs/optimizing-performance.html#examples)를 보세요.
 
-### Functional Components
+### 함수형 컴포넌트
 
-We've removed the constructor, and in fact, React supports a simpler syntax called **functional components** for component types like Square that only consist of a `render` method. Rather than define a class extending `React.Component`, simply write a function that takes props and returns what should be rendered.
+우리는 생성자를 지웠습니다. React는 `render` 메서드만으로 구성된 Square와 같은 컴포넌트 타입을 위해 **함수형 컴포넌트**라 불리는 간단한 문법을 지원합니다. `React.Component`를 확장한 클래스를 정의하는 것보다 간단하게 props를 가져오고 랜더링 해야할 것을 반환하는 함수를 작성하는 것이 좋습니다.
 
-Replace the whole Square class with this function:
+다음과 같은 함수를 사용해 Square 클래스를 변경하세요:
 
 ```javascript
 function Square(props) {
@@ -528,17 +526,17 @@ function Square(props) {
 }
 ```
 
-You'll need to change `this.props` to `props` both times it appears. Many components in your apps will be able to be written as functional components: these components tend to be easier to write and React will optimize them more in the future.
+여기서는 `this.props`를 둘 다 `props`로 바꿔야 합니다. 애플리케이션에 있는 여러 컴포넌트들은 함수형 컴포넌트로 구현할 수 있습니다. 함수형 컴포넌트는 더 쉽게 작성할 수 있고 React가 더 효율적으로 최적화할 수 있습니다.
 
-While we're cleaning up the code, we also changed `onClick={() => props.onClick()}` to just `onClick={props.onClick}`, as passing the function down is enough for our example. Note that `onClick={props.onClick()}` would not work because it would call `props.onClick` immediately instead of passing it down.
+코드를 깔끔하게 만들면서 `onClick={() => props.onClick()}`을`onClick={props.onClick}`으로 바꿨습니다. 함수를 전달하는 것은 이 코드만으로 충분합니다.  `onClick={props.onClick()}`는 `props.onClick`을 호출하기 때문에 동작하지 않습니다.
 
-[View the current code.](https://codepen.io/gaearon/pen/QvvJOv?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/QvvJOv?editors=0010)
 
-### Taking Turns
+### 변화 가져오기
 
-An obvious defect in our game is that only X can play. Let's fix that.
+지금 우리의 게임의 단점은 오로지 X만 플레이할 수 있다는 점입니다. 고쳐봅시다.
 
-Let's default the first move to be by 'X'. Modify our starting state in our Board constructor:
+기본적으로 첫 이동을 'X'가 되도록 설정해봅시다. Board 생성자에서 초기 상태를 수정해주세요:
 
 ```javascript{6}
 class Board extends React.Component {
@@ -551,7 +549,7 @@ class Board extends React.Component {
   }
 ```
 
-Each time we move we shall toggle `xIsNext` by flipping the boolean value and saving the state. Now update Board's `handleClick` function to flip the value of `xIsNext`:
+이동할 때마다 `xIsNext`의 불린 값이 바뀌면서 state에 저장되어야 합니다. Board의 `handleClick` 함수에서 `xIsNext` 값이 바뀔 수 있도록 수정해봅시다:
 
 ```javascript{3,6}
   handleClick(i) {
@@ -564,7 +562,7 @@ Each time we move we shall toggle `xIsNext` by flipping the boolean value and sa
   }
 ```
 
-Now X and O take turns. Next, change the "status" text in Board's `render` so that it also displays who is next:
+이제 X와 O가 순서대로 번갈아 나타납니다. 다음 차례에 어떤 것이 표시될지 보여주기 위해 Board의 `render`에서 "status" 텍스트를 바꿔봅시다:
 
 ```javascript{2}
   render() {
@@ -574,7 +572,7 @@ Now X and O take turns. Next, change the "status" text in Board's `render` so th
       // the rest has not changed
 ```
 
-After these changes you should have this Board component:
+변경 사항을 적용한 Board 컴포넌트는 다음과 같습니다:
 
 ```javascript{6,11-16,29}
 class Board extends React.Component {
@@ -631,11 +629,11 @@ class Board extends React.Component {
 }
 ```
 
-[View the current code.](https://codepen.io/gaearon/pen/KmmrBy?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/KmmrBy?editors=0010)
 
-### Declaring a Winner
+### 승자 알려주기
 
-Let's show when a game is won. Add this helper function to the end of the file:
+언제 게임에서 이기는지 표시해봅시다. 파일 맨 하단에 헬퍼 함수를 추가해주세요:
 
 ```javascript
 function calculateWinner(squares) {
@@ -659,9 +657,9 @@ function calculateWinner(squares) {
 }
 ```
 
-You can call it in Board's `render` function to check if anyone has won the game and make the status text show "Winner: [X/O]" when someone wins.
+Board의 `render` 함수에서 누가 게임에서 이겼는지 확인할 수 있도록 호출할 수 있습니다. 또 누군가 이겼을 떄 "Winner: [X/O]" 상태 텍스트를 표시할 수 있습니다.
 
-Replace the `status` declaration in Board's `render` with this code:
+Board의 `render`에서 `status`를 선언을 수정해주세요:
 
 ```javascript{2-8}
   render() {
@@ -677,7 +675,7 @@ Replace the `status` declaration in Board's `render` with this code:
       // the rest has not changed
 ```
 
-You can now change `handleClick` in Board to return early and ignore the click if someone has already won the game or if a square is already filled:
+Board에서 `handleClick`에서 일찍 반환하여 이미 누군가 이긴 게임에서 클릭하거나 이미 칠해진 사각형을 클릭하는 경우 무시하도록 변경할 수 있습니다:
 
 ```javascript{3-5}
   handleClick(i) {
@@ -693,15 +691,15 @@ You can now change `handleClick` in Board to return early and ignore the click i
   }
 ```
 
-Congratulations! You now have a working tic-tac-toe game. And now you know the basics of React. So *you're* probably the real winner here.
+축하합니다! 틱택토 게임을 완성하셨습니다! 이제 React의 기초를 알았습니다. 여기서 진짜 승자는 여러분입니다.
 
-[View the current code.](https://codepen.io/gaearon/pen/LyyXgK?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/LyyXgK?editors=0010)
 
-## Storing a History
+## 히스토리 저장하기
 
-Let's make it possible to revisit old states of the board so we can see what it looked like after any of the previous moves. We're already creating a new `squares` array each time a move is made, which means we can easily store the past board states simultaneously.
+보드의 이전 상태로 되돌려 이전 상태가 표시되도록 만들어봅시다. 이동이 있을때마다 새 `squares` 배열을 만들었습니다. 덕분에 이전 상태의 보드를 쉽게 저장할 수 있습니다.
 
-Let's plan to store an object like this in state:
+state에 이와 같은 객체를 저장해봅시다:
 
 ```javascript
 history = [
@@ -723,9 +721,9 @@ history = [
 ]
 ```
 
-We'll want the top-level Game component to be responsible for displaying the list of moves. So just as we pulled the state up before from Square into Board, let's now pull it up again from Board into Game – so that we have all the information we need at the top level.
+우리는 이동 리스트를 표시하여 응답할 수 있는 더 수준 높은 Game 컴포넌트를 만들고 싶습니다. 그래서 Square state를 Board로 들어올린 것처럼 Board의 state를 Game으로 들어올려 최상위 레벨에서 필요한 모든 정보를 저장해봅시다.
 
-First, set up the initial state for Game by adding a constructor to it:
+먼저 생성자를 추가해 Game의 초기 상태를 설정해주세요:
 
 ```javascript{2-10}
 class Game extends React.Component {
@@ -755,13 +753,13 @@ class Game extends React.Component {
 }
 ```
 
-Then change Board so that it takes `squares` via props and has its own `onClick` prop specified by Game, like the transformation we made for Square earlier. You can pass the location of each square into the click handler so that we still know which square was clicked. Here is a list of steps you need to do:
+그 다음 Board를 수정하여 props를 거쳐 `squares`를 가져오고 이전에 Square에서 했던 것처럼 Game에서 지정한 `onClick` prop를 만들어줍시다. 각 사각형의 위치를 클릭 핸들러로 전달하여 어떤 사각형이 클릭되었는지 알 수 있습니다. 필요한 변경 사항은 다음과 같습니다:
 
-* Delete the `constructor` in Board.
-* Replace `this.state.squares[i]` with `this.props.squares[i]` in Board's `renderSquare`.
-* Replace `this.handleClick(i)` with `this.props.onClick(i)` in Board's `renderSquare`.
+* Board의 `constructor`를 삭제하세요.
+* Board의 `renderSquare`에 있는 `this.state.squares[i]`를 `this.props.sqaures[i]`로 대체하세요.
+* Board의 `renderSquare`에 있는 `this.handleClick(i)`를 `this.props.onClick(i)`로 대체하세요.
 
-Now the whole Board component looks like this:
+변경 사항을 반영한 Board 컴포넌트는 다음과 같습니다:
 
 ```javascript{17,18}
 class Board extends React.Component {
@@ -819,7 +817,7 @@ class Board extends React.Component {
 }
 ```
 
-Game's `render` should look at the most recent history entry and can take over calculating the game status:
+Game의 `render`는 히스토리 전체를 보고 게임 상태를 계산하여 가져올 수 있어야 합니다:
 
 ```javascript{2-11,16-19,22}
   render() {
@@ -851,7 +849,7 @@ Game's `render` should look at the most recent history entry and can take over c
   }
 ```
 
-Since Game is now rendering the status, we can delete `<div className="status">{status}</div>` and the code calculating the status from the Board's `render` function:
+Game에 상태를 랜더링하고 있기 때문에 `<div className='status'>{status}</div>`를 지우고 Board의 `render` 함수로부터 상태를 계산하는 코드를 지울 수 있습니다.
 
 ```js{1-4}
   render() {
@@ -877,9 +875,9 @@ Since Game is now rendering the status, we can delete `<div className="status">{
   }
 ```
 
-Next, we need to move the `handleClick` method implementation from Board to Game. You can cut it from the Board class, and paste it into the Game class.
+그 다음 Board에서 Game으로 `handleClick` 메서드를 옮겨야 합니다. Board 클래스에서 잘라내기를 하고 Game 클래스로 붙여넣을 수 있습니다.
 
-We also need to change it a little, since Game state is structured differently. Game's `handleClick` can push a new entry onto the stack by concatenating the new history entry to make a new history array.
+Game 상태는 다르기 때문에 수정해야 할 것이 조금 있습니다. Game의 `handleClick`은 히스토리 항목을 연결하여 새로운 배열을 만들어 스택에 푸시해야 합니다.
 
 ```javascript{2-4,10-12}
   handleClick(i) {
@@ -899,13 +897,13 @@ We also need to change it a little, since Game state is structured differently. 
   }
 ```
 
-At this point, Board only needs `renderSquare` and `render`; the state initialization and click handler should both live in Game.
+여기에서 Board는 `renderSquare`와 `render`만 필요합니다. 상태 초기화와 클릭 핸들러는 둘 다 Game에서 동작합니다.
 
-[View the current code.](https://codepen.io/gaearon/pen/EmmOqJ?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/EmmOqJ?editors=0010)
 
-### Showing the Moves
+### 이동 표시하기
 
-Let's show the previous moves made in the game so far. We learned earlier that React elements are first-class JS objects and we can store them or pass them around. To render multiple items in React, we pass an array of React elements. The most common way to build that array is to map over your array of data. Let's do that in the `render` method of Game:
+지금까지 게임에서 진행된 이동을 표시해봅시다. 이전에 React 컴포넌트가 클래스로 JS 객체이고 그 덕에 데이터를 저장하고 전달할 수 있다고 배웠습니다. React에서 여러 아이템들을 랜더링하기 위해 React 요소의 배열을 전달했습니다. 배열을 빌드하는 가장 흔한 방법은 데이터 배열에서 map을 이용하는 것입니다. Game의 `render` 메서드에서 해봅시다:
 
 ```javascript{6-15,34}
   render() {
@@ -948,29 +946,29 @@ Let's show the previous moves made in the game so far. We learned earlier that R
   }
 ```
 
-[View the current code.](https://codepen.io/gaearon/pen/EmmGEa?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/EmmGEa?editors=0010)
 
-For each step in the history, we create a list item `<li>` with a button `<button>` inside it that has a click handler which we'll implement shortly. With this code, you should see a list of the moves that have been made in the game, along with a warning that says:
+히스토리의 각 단계에서 `<button>`이 있는 리스트 아이템 `<li>`을 만들었습니다. 이 리스트 아이템은 우리가 곧 구현할 클릭 핸들러를 가지고 있습니다. 코드에서 다음과 같은 경고 메시지와 함께 게임에서 만들어지는 이동 목록을 볼 수 있습니다:
 
->  Warning:
->  Each child in an array or iterator should have a unique "key" prop. Check the render method of "Game".
+>  경고:
+>  배열이나 이터레이터에 있는 각 자식은 유니크 "key" prop을 가져야한다. "Game"의 render 메서드를 확인해보세요.
 
-Let's talk about what that warning means.
+이 경고의 의미가 무엇인지 얘기해봅시다.
 
 ### Keys
 
-When you render a list of items, React always stores some info about each item in the list. If you render a component that has state, that state needs to be stored – and regardless of how you implement your components, React stores a reference to the backing native views.
+아이템 리스트를 랜더링할때 React는 항상 리스트에 있는 각 아이템에 대한 정보를 저장합니다. 만약 state를 가진 컴포넌트를 랜더링한다면 컴포넌트가 어떻게 실행되는지와 관계없이 state는 저장 되어야 하고 React는 네이티브 뷰의 뒤에 참고할 것을 저장한다.
 
-When you update that list, React needs to determine what has changed. You could've added, removed, rearranged, or updated items in the list.
+리스트를 업데이트할 때 React는 무엇을 바꿀지 결정해야 합니다. 리스트에 아이템들을 추가하고, 지우고, 재배열하고, 수정할 수 있습니다.
 
-Imagine transitioning from
+이 코드가 
 
 ```html
 <li>Alexa: 7 tasks left</li>
 <li>Ben: 5 tasks left</li>
 ```
 
-to
+아래의 코드로 변경된다고 상상해봅시다.
 
 ```html
 <li>Ben: 9 tasks left</li>
@@ -978,26 +976,25 @@ to
 <li>Alexa: 5 tasks left</li>
 ```
 
-To a human eye, it looks likely that Alexa and Ben swapped places and Claudia was added – but React is just a computer program and doesn't know what you intended it to do. As a result, React asks you to specify a *key* property on each element in a list, a string to differentiate each component from its siblings. In this case, `alexa`, `ben`, `claudia` might be sensible keys; if the items correspond to objects in a database, the database ID is usually a good choice:
+사람의 눈에는 Alexa와 Ben의 자리가 바뀌고 Claudia가 추가된 것처럼 보이지만 React는 단순한 컴퓨터 프로그램이므로 여러분의 의도를 알지 못합니다. React는 리스트의 각 요소에서 *key* 속성을 지정해달라고 요청합니다. 이 문자열은 같은 층위의 컴포넌트들로부터 각 컴포넌트들을 구분합니다. 이 경우에 `alexa`, `ben`, `claudia`는 구분할 수 있는 키가 됩니다. 만약 아이템들이 데이터베이스의 객체와 일치시켜야 한다면 데이터베이스 ID을 사용하세요:
 
 ```html
 <li key={user.id}>{user.name}: {user.taskCount} tasks left</li>
 ```
 
-`key` is a special property that's reserved by React (along with `ref`, a more advanced feature). When an element is created, React pulls off the `key` property and stores the key directly on the returned element. Even though it may look like it is part of props, it cannot be referenced with `this.props.key`. React uses the key automatically while deciding which children to update; there is no way for a component to inquire about its own key.
+`key`는 React에서 제공되는 특별한 속성입니다(`ref`에서 더 확장된 기능). 엘리먼트가 만들어질때 React는 `key` 속성을 가져오고 반환된 엘리먼트에 직접적으로 key를 저장합니다. key가 props의 한 부분으로 보일지라도 이것은 `this.props.key`로 참조할 수 없습니다. React는 어떤 하위 엘리먼트가 수정될지 결정하는 동안 알아서 key를 사용합니다. 컴포넌트가 자신의 키를 알 수 있는 방법은 없습니다.
 
-When a list is rerendered, React takes each element in the new version and looks for one with a matching key in the previous list. When a key is added to the set, a component is created; when a key is removed, a component is destroyed. Keys tell React about the identity of each component, so that it can maintain the state across rerenders. If you change the key of a component, it will be completely destroyed and recreated with a new state.
+리스트가 랜더링될 때 React는 새로운 버전의 각 엘리먼트를 가져오고 이전 리스트에서 매칭되는 키를 가진 것을 찾습니다. key가 세트에 추가될 때 컴포넌트는 만들어집니다. 키가 삭제될 때 컴포넌트는 소멸됩니다. 키들은 React가 각 요소를 구별할 수 있도록하여 다시 랜더링하는 것을 무시하고 상태를 유지할 수 있게 합니다. 만약 컴포넌트의 키를 바꾼다면 완전히 지운 후 새롭게 생성됩니다.
 
-**It's strongly recommended that you assign proper keys whenever you build dynamic lists.** If you don't have an appropriate key handy, you may want to consider restructuring your data so that you do.
+**동적으로 리스트를 빌드할 때마다 적당한 키를 할당할 것을 강력 추천합니다.** 만약 적당한 키를 가지지 못한다면 이를 위해 데이터를 재구성하여야 할지도 모릅니다.
 
-If you don't specify any key, React will warn you and fall back to using the array index as a key – which is not the correct choice if you ever reorder elements in the list or add/remove items anywhere but the bottom of the list. Explicitly passing `key={i}` silences the warning but has the same problem so isn't recommended in most cases.
+특정한 키를 구분하지 못한다면 React는 경고를 주고 배열 인덱스를 키로 사용합니다. 이는 올바른 선택이 아닙니다. 만약 리스트에 있는 엘리먼트들을 정렬하거나 리스트에 있는 버튼을 통해 지우거나 추가하면 명시적으로 `key={i}`를 전달하는 방법을 사용한다면 경고를 표시하지는 않지만 동일한 문제를 발생시키므로 대부분의 경우에 추천하지 않습니다.
 
-Component keys don't need to be globally unique, only unique relative to the immediate siblings.
+컴포넌트의 키가 전부 다를 필요는 없지만 관련있는 형제들 사이에서는 유니크해야 합니다.
 
+### 시간 여행 실행하기
 
-### Implementing Time Travel
-
-For our move list, we already have a unique ID for each step: the number of the move when it happened. In the Game's `render` method, add the key as `<li key={move}>` and the key warning should disappear:
+이동 리스트를 위해 우리는 각 단계에서 유니크 ID를 가졌습니다. Game의 `render` 메서드에서 키는 `<li key={move}>`로 추가하면 경고는 표시되지 않습니다:
 
 ```js{6}
     const moves = history.map((step, move) => {
@@ -1012,11 +1009,11 @@ For our move list, we already have a unique ID for each step: the number of the 
     });
 ```
 
-[View the current code.](https://codepen.io/gaearon/pen/PmmXRE?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/PmmXRE?editors=0010)
 
-Clicking any of the move buttons throws an error because `jumpTo` is undefined. Let's add a new key to Game's state to indicate which step we're currently viewing.
+아직 `junmTo`가 정의되지 않았기 때문에 이동 버튼을 클릭하면 에러가 발생합니다. 지금 표시된 단계가 무엇인지 알기 위해 Game 상태에 새로운 키를 추가해봅시다.
 
-First, add `stepNumber: 0` to the initial state in Game's `constructor`:
+먼저Game의 `constructor`에  `stepNumber: 0`를 추가해주세요:
 
 ```js{8}
 class Game extends React.Component {
@@ -1032,9 +1029,9 @@ class Game extends React.Component {
   }
 ```
 
-Next, we'll define the `jumpTo` method in Game to update that state. We also want to update `xIsNext`. We set `xIsNext` to true if the index of the move number is an even number.
+그 다음 각 상태를 업데이트하기 위해 Game의 `jumpTo` 메서드를 정의해봅시다. 이 메서드에서는 `xIsNext`를 업데이트하고, 이동의 인덱스가 짝수라면 `xIsNext`를 true로 설정합니다.
 
-Add a method called `jumpTo` to the Game class:
+Game 클래스에 `jumpTo` 메서드를 추가해주세요:
 
 ```javascript{5-10}
   handleClick(i) {
@@ -1053,7 +1050,7 @@ Add a method called `jumpTo` to the Game class:
   }
 ```
 
-Then update `stepNumber` when a new move is made by adding `stepNumber: history.length` to the state update in Game's `handleClick`. We'll also update `handleClick` to be aware of `stepNumber` when reading the current board state so that you can go back in time then click in the board to create a new entry.:
+Game `handleClick`에 상태를 업데이트 하기위해 `stempNumber:history.length`를 추가하여 새로운 이동이 있을 때마다  `stepNumber`를 업데이트 합니다. 현재 보드의 상태를 읽을 때 `handleClick`이 `stepNumber`라고 보고 클릭하는 시간대로 상태를 되돌릴 수 있습니다:
 
 ```javascript{2,13}
   handleClick(i) {
@@ -1074,7 +1071,7 @@ Then update `stepNumber` when a new move is made by adding `stepNumber: history.
   }
 ```
 
-Now you can modify Game's `render` to read from that step in the history:
+이제 히스토리의 각 단계를 알기 위해 Game의 render를 수정할 수 있습니다:
 
 ```javascript{3}
   render() {
@@ -1085,29 +1082,29 @@ Now you can modify Game's `render` to read from that step in the history:
     // the rest has not changed
 ```
 
-[View the current code.](https://codepen.io/gaearon/pen/gWWZgR?editors=0010)
+[지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/gWWZgR?editors=0010)
 
-If you click any move button now, the board should immediately update to show what the game looked like at that time.
+이제 이동 버튼을 클릭하면 보드는 즉시 그때 표시된 게임으로 변경됩니다.
 
-### Wrapping Up
+### 마무리
 
-Now, you've made a tic-tac-toe game that:
+이제 틱택토 게임을 완성했습니다.
 
-* lets you play tic-tac-toe,
-* indicates when one player has won the game,
-* stores the history of moves during the game,
-* allows players to jump back in time to see older versions of the game board.
+- 틱택토 게임을 플레이 해보세요.
+- 한 명의 플레이어가 게임에서 이길 때를 이를 알려줍니다.
+- 게임이 진행되는 동안 이동 기록이 저장됩니다.
+- 게임 보드의 에전 버전을 표시하기 위해 시간을 되돌릴 수 있습니다.
 
-Nice work! We hope you now feel like you have a decent grasp on how React works.
+잘 동작하네요! React가 어떻게 동작하는지 잘 아셨기를 바랍니다.
 
-Check out the final result here: [Final Result](https://codepen.io/gaearon/pen/gWWZgR?editors=0010).
+최종 결과물은 [여기](https://codepen.io/gaearon/pen/gWWZgR?editors=0010)에서 확인하세요.
 
-If you have extra time or want to practice your new skills, here are some ideas for improvements you could make, listed in order of increasing difficulty:
+시간이 더 있거나 새로운 스킬들을 연습해보고 싶다면 해볼 수 있는 몇 가지 아이디어가 있습니다. 점점 더 어려운 순으로 배치해두었습니다.
 
-1. Display the location for each move in the format (col, row) in the move history list.
-2. Bold the currently selected item in the move list.
-3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
-4. Add a toggle button that lets you sort the moves in either ascending or descending order.
-5. When someone wins, highlight the three squares that caused the win.
+1. 움직임 리스트에서 (col, row) 형태에 각 움직임 위치를 표시하세요.
+2. 움직임 리스트의 선택된 아이템을 볼드 처리하세요.
+3. 하드 코딩한 것들 대신 사각형을 두 개의 루프를 사용하여 Board를 다시 작성하세요.
+4. 오름차순 혹은 내림차순이든 움직임을 정렬하는 버튼을 추가해보세요.
+5. 누군가 이겼을 때 무엇 때문에 이겼는지 세 개의 사각형을 하이라이트하세요.
 
-Throughout this tutorial, we have touched on a number of React concepts including elements, components, props, and state. For a more in-depth explanation for each of these topics, check out [the rest of the documentation](/docs/hello-world.html). To learn more about defining components, check out the [`React.Component` API reference](/docs/react-component.html).
+튜토리얼이 진행되는 동안 우리는 엘리먼트, 컴포넌트, props, 상태를 포함한 React의 수많은 컨셉들을 다뤘습니다. 각 주제에 대한 깊은 설명을 원한다면 [남은 문서](/docs/hello-world.html)를 확인하세요. 컴포넌트 정의에 대해 더 많이 배우고 싶다면 [`React.Component` API reference](/docs/react-component.html)를 확인하세요.
