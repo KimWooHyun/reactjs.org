@@ -695,11 +695,11 @@ Board에서 `handleClick`에서 일찍 반환하여 이미 누군가 이긴 게�
 
 [지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/LyyXgK?editors=0010)
 
-## Storing a History
+## 히스토리 저장하기
 
-Let's make it possible to revisit old states of the board so we can see what it looked like after any of the previous moves. We're already creating a new `squares` array each time a move is made, which means we can easily store the past board states simultaneously.
+보드의 이전 상태로 되돌려 이전 상태가 표시되도록 만들어봅시다. 이동이 있을때마다 새 `squares` 배열을 만들었습니다. 덕분에 이전 상태의 보드를 쉽게 저장할 수 있습니다.
 
-Let's plan to store an object like this in state:
+state에 이와 같은 객체를 저장해봅시다:
 
 ```javascript
 history = [
@@ -721,9 +721,9 @@ history = [
 ]
 ```
 
-We'll want the top-level Game component to be responsible for displaying the list of moves. So just as we pulled the state up before from Square into Board, let's now pull it up again from Board into Game – so that we have all the information we need at the top level.
+우리는 이동 리스트를 표시하여 응답할 수 있는 더 수준 높은 Game 컴포넌트를 만들고 싶습니다. 그래서 Square state를 Board로 들어올린 것처럼 Board의 state를 Game으로 들어올려 최상위 레벨에서 필요한 모든 정보를 저장해봅시다.
 
-First, set up the initial state for Game by adding a constructor to it:
+먼저 생성자를 추가해 Game의 초기 상태를 설정해주세요:
 
 ```javascript{2-10}
 class Game extends React.Component {
@@ -753,13 +753,13 @@ class Game extends React.Component {
 }
 ```
 
-Then change Board so that it takes `squares` via props and has its own `onClick` prop specified by Game, like the transformation we made for Square earlier. You can pass the location of each square into the click handler so that we still know which square was clicked. Here is a list of steps you need to do:
+그 다음 Board를 수정하여 props를 거쳐 `squares`를 가져오고 이전에 Square에서 했던 것처럼 Game에서 지정한 `onClick` prop를 만들어줍시다. 각 사각형의 위치를 클릭 핸들러로 전달하여 어떤 사각형이 클릭되었는지 알 수 있습니다. 필요한 변경 사항은 다음과 같습니다:
 
-* Delete the `constructor` in Board.
-* Replace `this.state.squares[i]` with `this.props.squares[i]` in Board's `renderSquare`.
-* Replace `this.handleClick(i)` with `this.props.onClick(i)` in Board's `renderSquare`.
+* Board의 `constructor`를 삭제하세요.
+* Board의 `renderSquare`에 있는 `this.state.squares[i]`를 `this.props.sqaures[i]`로 대체하세요.
+* Board의 `renderSquare`에 있는 `this.handleClick(i)`를 `this.props.onClick(i)`로 대체하세요.
 
-Now the whole Board component looks like this:
+변경 사항을 반영한 Board 컴포넌트는 다음과 같습니다:
 
 ```javascript{17,18}
 class Board extends React.Component {
@@ -817,7 +817,7 @@ class Board extends React.Component {
 }
 ```
 
-Game's `render` should look at the most recent history entry and can take over calculating the game status:
+Game의 `render`는 히스토리 전체를 보고 게임 상태를 계산하여 가져올 수 있어야 합니다:
 
 ```javascript{2-11,16-19,22}
   render() {
@@ -849,7 +849,7 @@ Game's `render` should look at the most recent history entry and can take over c
   }
 ```
 
-Since Game is now rendering the status, we can delete `<div className="status">{status}</div>` and the code calculating the status from the Board's `render` function:
+Game에 상태를 랜더링하고 있기 때문에 `<div className='status'>{status}</div>`를 지우고 Board의 `render` 함수로부터 상태를 계산하는 코드를 지울 수 있습니다.
 
 ```js{1-4}
   render() {
@@ -875,9 +875,9 @@ Since Game is now rendering the status, we can delete `<div className="status">{
   }
 ```
 
-Next, we need to move the `handleClick` method implementation from Board to Game. You can cut it from the Board class, and paste it into the Game class.
+그 다음 Board에서 Game으로 `handleClick` 메서드를 옮겨야 합니다. Board 클래스에서 잘라내기를 하고 Game 클래스로 붙여넣을 수 있습니다.
 
-We also need to change it a little, since Game state is structured differently. Game's `handleClick` can push a new entry onto the stack by concatenating the new history entry to make a new history array.
+Game 상태는 다르기 때문에 수정해야 할 것이 조금 있습니다. Game의 `handleClick`은 히스토리 항목을 연결하여 새로운 배열을 만들어 스택에 푸시해야 합니다.
 
 ```javascript{2-4,10-12}
   handleClick(i) {
@@ -897,13 +897,13 @@ We also need to change it a little, since Game state is structured differently. 
   }
 ```
 
-At this point, Board only needs `renderSquare` and `render`; the state initialization and click handler should both live in Game.
+여기에서 Board는 `renderSquare`와 `render`만 필요합니다. 상태 초기화와 클릭 핸들러는 둘 다 Game에서 동작합니다.
 
 [지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/EmmOqJ?editors=0010)
 
-### Showing the Moves
+### 이동 표시하기
 
-Let's show the previous moves made in the game so far. We learned earlier that React elements are first-class JS objects and we can store them or pass them around. To render multiple items in React, we pass an array of React elements. The most common way to build that array is to map over your array of data. Let's do that in the `render` method of Game:
+지금까지 게임에서 진행된 이동을 표시해봅시다. 이전에 React 컴포넌트가 클래스로 JS 객체이고 그 덕에 데이터를 저장하고 전달할 수 있다고 배웠습니다. React에서 여러 아이템들을 랜더링하기 위해 React 요소의 배열을 전달했습니다. 배열을 빌드하는 가장 흔한 방법은 데이터 배열에서 map을 이용하는 것입니다. Game의 `render` 메서드에서 해봅시다:
 
 ```javascript{6-15,34}
   render() {
@@ -948,27 +948,27 @@ Let's show the previous moves made in the game so far. We learned earlier that R
 
 [지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/EmmGEa?editors=0010)
 
-For each step in the history, we create a list item `<li>` with a button `<button>` inside it that has a click handler which we'll implement shortly. With this code, you should see a list of the moves that have been made in the game, along with a warning that says:
+히스토리의 각 단계에서 `<button>`이 있는 리스트 아이템 `<li>`을 만들었습니다. 이 리스트 아이템은 우리가 곧 구현할 클릭 핸들러를 가지고 있습니다. 코드에서 다음과 같은 경고 메시지와 함께 게임에서 만들어지는 이동 목록을 볼 수 있습니다:
 
->  Warning:
->  Each child in an array or iterator should have a unique "key" prop. Check the render method of "Game".
+>  경고:
+>  배열이나 이터레이터에 있는 각 자식은 유니크 "key" prop을 가져야한다. "Game"의 render 메서드를 확인해보세요.
 
-Let's talk about what that warning means.
+이 경고의 의미가 무엇인지 얘기해봅시다.
 
 ### Keys
 
-When you render a list of items, React always stores some info about each item in the list. If you render a component that has state, that state needs to be stored – and regardless of how you implement your components, React stores a reference to the backing native views.
+아이템 리스트를 랜더링할때 React는 항상 리스트에 있는 각 아이템에 대한 정보를 저장합니다. 만약 state를 가진 컴포넌트를 랜더링한다면 컴포넌트가 어떻게 실행되는지와 관계없이 state는 저장 되어야 하고 React는 네이티브 뷰의 뒤에 참고할 것을 저장한다.
 
-When you update that list, React needs to determine what has changed. You could've added, removed, rearranged, or updated items in the list.
+리스트를 업데이트할 때 React는 무엇을 바꿀지 결정해야 합니다. 리스트에 아이템들을 추가하고, 지우고, 재배열하고, 수정할 수 있습니다.
 
-Imagine transitioning from
+이 코드가 
 
 ```html
 <li>Alexa: 7 tasks left</li>
 <li>Ben: 5 tasks left</li>
 ```
 
-to
+아래의 코드로 변경된다고 상상해봅시다.
 
 ```html
 <li>Ben: 9 tasks left</li>
@@ -976,26 +976,25 @@ to
 <li>Alexa: 5 tasks left</li>
 ```
 
-To a human eye, it looks likely that Alexa and Ben swapped places and Claudia was added – but React is just a computer program and doesn't know what you intended it to do. As a result, React asks you to specify a *key* property on each element in a list, a string to differentiate each component from its siblings. In this case, `alexa`, `ben`, `claudia` might be sensible keys; if the items correspond to objects in a database, the database ID is usually a good choice:
+사람의 눈에는 Alexa와 Ben의 자리가 바뀌고 Claudia가 추가된 것처럼 보이지만 React는 단순한 컴퓨터 프로그램이므로 여러분의 의도를 알지 못합니다. React는 리스트의 각 요소에서 *key* 속성을 지정해달라고 요청합니다. 이 문자열은 같은 층위의 컴포넌트들로부터 각 컴포넌트들을 구분합니다. 이 경우에 `alexa`, `ben`, `claudia`는 구분할 수 있는 키가 됩니다. 만약 아이템들이 데이터베이스의 객체와 일치시켜야 한다면 데이터베이스 ID을 사용하세요:
 
 ```html
 <li key={user.id}>{user.name}: {user.taskCount} tasks left</li>
 ```
 
-`key` is a special property that's reserved by React (along with `ref`, a more advanced feature). When an element is created, React pulls off the `key` property and stores the key directly on the returned element. Even though it may look like it is part of props, it cannot be referenced with `this.props.key`. React uses the key automatically while deciding which children to update; there is no way for a component to inquire about its own key.
+`key`는 React에서 제공되는 특별한 속성입니다(`ref`에서 더 확장된 기능). 엘리먼트가 만들어질때 React는 `key` 속성을 가져오고 반환된 엘리먼트에 직접적으로 key를 저장합니다. key가 props의 한 부분으로 보일지라도 이것은 `this.props.key`로 참조할 수 없습니다. React는 어떤 하위 엘리먼트가 수정될지 결정하는 동안 알아서 key를 사용합니다. 컴포넌트가 자신의 키를 알 수 있는 방법은 없습니다.
 
-When a list is rerendered, React takes each element in the new version and looks for one with a matching key in the previous list. When a key is added to the set, a component is created; when a key is removed, a component is destroyed. Keys tell React about the identity of each component, so that it can maintain the state across rerenders. If you change the key of a component, it will be completely destroyed and recreated with a new state.
+리스트가 랜더링될 때 React는 새로운 버전의 각 엘리먼트를 가져오고 이전 리스트에서 매칭되는 키를 가진 것을 찾습니다. key가 세트에 추가될 때 컴포넌트는 만들어집니다. 키가 삭제될 때 컴포넌트는 소멸됩니다. 키들은 React가 각 요소를 구별할 수 있도록하여 다시 랜더링하는 것을 무시하고 상태를 유지할 수 있게 합니다. 만약 컴포넌트의 키를 바꾼다면 완전히 지운 후 새롭게 생성됩니다.
 
-**It's strongly recommended that you assign proper keys whenever you build dynamic lists.** If you don't have an appropriate key handy, you may want to consider restructuring your data so that you do.
+**동적으로 리스트를 빌드할 때마다 적당한 키를 할당할 것을 강력 추천합니다.** 만약 적당한 키를 가지지 못한다면 이를 위해 데이터를 재구성하여야 할지도 모릅니다.
 
-If you don't specify any key, React will warn you and fall back to using the array index as a key – which is not the correct choice if you ever reorder elements in the list or add/remove items anywhere but the bottom of the list. Explicitly passing `key={i}` silences the warning but has the same problem so isn't recommended in most cases.
+특정한 키를 구분하지 못한다면 React는 경고를 주고 배열 인덱스를 키로 사용합니다. 이는 올바른 선택이 아닙니다. 만약 리스트에 있는 엘리먼트들을 정렬하거나 리스트에 있는 버튼을 통해 지우거나 추가하면 명시적으로 `key={i}`를 전달하는 방법을 사용한다면 경고를 표시하지는 않지만 동일한 문제를 발생시키므로 대부분의 경우에 추천하지 않습니다.
 
-Component keys don't need to be globally unique, only unique relative to the immediate siblings.
+컴포넌트의 키가 전부 다를 필요는 없지만 관련있는 형제들 사이에서는 유니크해야 합니다.
 
+### 시간 여행 실행하기
 
-### Implementing Time Travel
-
-For our move list, we already have a unique ID for each step: the number of the move when it happened. In the Game's `render` method, add the key as `<li key={move}>` and the key warning should disappear:
+이동 리스트를 위해 우리는 각 단계에서 유니크 ID를 가졌습니다. Game의 `render` 메서드에서 키는 `<li key={move}>`로 추가하면 경고는 표시되지 않습니다:
 
 ```js{6}
     const moves = history.map((step, move) => {
@@ -1012,9 +1011,9 @@ For our move list, we already have a unique ID for each step: the number of the 
 
 [지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/PmmXRE?editors=0010)
 
-Clicking any of the move buttons throws an error because `jumpTo` is undefined. Let's add a new key to Game's state to indicate which step we're currently viewing.
+아직 `junmTo`가 정의되지 않았기 때문에 이동 버튼을 클릭하면 에러가 발생합니다. 지금 표시된 단계가 무엇인지 알기 위해 Game 상태에 새로운 키를 추가해봅시다.
 
-First, add `stepNumber: 0` to the initial state in Game's `constructor`:
+먼저Game의 `constructor`에  `stepNumber: 0`를 추가해주세요:
 
 ```js{8}
 class Game extends React.Component {
@@ -1030,9 +1029,9 @@ class Game extends React.Component {
   }
 ```
 
-Next, we'll define the `jumpTo` method in Game to update that state. We also want to update `xIsNext`. We set `xIsNext` to true if the index of the move number is an even number.
+그 다음 각 상태를 업데이트하기 위해 Game의 `jumpTo` 메서드를 정의해봅시다. 이 메서드에서는 `xIsNext`를 업데이트하고, 이동의 인덱스가 짝수라면 `xIsNext`를 true로 설정합니다.
 
-Add a method called `jumpTo` to the Game class:
+Game 클래스에 `jumpTo` 메서드를 추가해주세요:
 
 ```javascript{5-10}
   handleClick(i) {
@@ -1051,7 +1050,7 @@ Add a method called `jumpTo` to the Game class:
   }
 ```
 
-Then update `stepNumber` when a new move is made by adding `stepNumber: history.length` to the state update in Game's `handleClick`. We'll also update `handleClick` to be aware of `stepNumber` when reading the current board state so that you can go back in time then click in the board to create a new entry.:
+Game `handleClick`에 상태를 업데이트 하기위해 `stempNumber:history.length`를 추가하여 새로운 이동이 있을 때마다  `stepNumber`를 업데이트 합니다. 현재 보드의 상태를 읽을 때 `handleClick`이 `stepNumber`라고 보고 클릭하는 시간대로 상태를 되돌릴 수 있습니다:
 
 ```javascript{2,13}
   handleClick(i) {
@@ -1072,7 +1071,7 @@ Then update `stepNumber` when a new move is made by adding `stepNumber: history.
   }
 ```
 
-Now you can modify Game's `render` to read from that step in the history:
+이제 히스토리의 각 단계를 알기 위해 Game의 render를 수정할 수 있습니다:
 
 ```javascript{3}
   render() {
@@ -1085,27 +1084,27 @@ Now you can modify Game's `render` to read from that step in the history:
 
 [지금까지의 코드는 이곳에서 볼 수 있습니다.](https://codepen.io/gaearon/pen/gWWZgR?editors=0010)
 
-If you click any move button now, the board should immediately update to show what the game looked like at that time.
+이제 이동 버튼을 클릭하면 보드는 즉시 그때 표시된 게임으로 변경됩니다.
 
-### Wrapping Up
+### 마무리
 
-Now, you've made a tic-tac-toe game that:
+이제 틱택토 게임을 완성했습니다.
 
-* lets you play tic-tac-toe,
-* indicates when one player has won the game,
-* stores the history of moves during the game,
-* allows players to jump back in time to see older versions of the game board.
+- 틱택토 게임을 플레이 해보세요.
+- 한 명의 플레이어가 게임에서 이길 때를 이를 알려줍니다.
+- 게임이 진행되는 동안 이동 기록이 저장됩니다.
+- 게임 보드의 에전 버전을 표시하기 위해 시간을 되돌릴 수 있습니다.
 
-Nice work! We hope you now feel like you have a decent grasp on how React works.
+잘 동작하네요! React가 어떻게 동작하는지 잘 아셨기를 바랍니다.
 
-Check out the final result here: [Final Result](https://codepen.io/gaearon/pen/gWWZgR?editors=0010).
+최종 결과물은 [여기](https://codepen.io/gaearon/pen/gWWZgR?editors=0010)에서 확인하세요.
 
-If you have extra time or want to practice your new skills, here are some ideas for improvements you could make, listed in order of increasing difficulty:
+시간이 더 있거나 새로운 스킬들을 연습해보고 싶다면 해볼 수 있는 몇 가지 아이디어가 있습니다. 점점 더 어려운 순으로 배치해두었습니다.
 
-1. Display the location for each move in the format (col, row) in the move history list.
-2. Bold the currently selected item in the move list.
-3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
-4. Add a toggle button that lets you sort the moves in either ascending or descending order.
-5. When someone wins, highlight the three squares that caused the win.
+1. 움직임 리스트에서 (col, row) 형태에 각 움직임 위치를 표시하세요.
+2. 움직임 리스트의 선택된 아이템을 볼드 처리하세요.
+3. 하드 코딩한 것들 대신 사각형을 두 개의 루프를 사용하여 Board를 다시 작성하세요.
+4. 오름차순 혹은 내림차순이든 움직임을 정렬하는 버튼을 추가해보세요.
+5. 누군가 이겼을 때 무엇 때문에 이겼는지 세 개의 사각형을 하이라이트하세요.
 
-Throughout this tutorial, we have touched on a number of React concepts including elements, components, props, and state. For a more in-depth explanation for each of these topics, check out [the rest of the documentation](/docs/hello-world.html). To learn more about defining components, check out the [`React.Component` API reference](/docs/react-component.html).
+튜토리얼이 진행되는 동안 우리는 엘리먼트, 컴포넌트, props, 상태를 포함한 React의 수많은 컨셉들을 다뤘습니다. 각 주제에 대한 깊은 설명을 원한다면 [남은 문서](/docs/hello-world.html)를 확인하세요. 컴포넌트 정의에 대해 더 많이 배우고 싶다면 [`React.Component` API reference](/docs/react-component.html)를 확인하세요.
