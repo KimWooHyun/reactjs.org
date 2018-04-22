@@ -168,7 +168,7 @@ function Story(props) {
 }
 ```
 
-## JSX 안애서 prop 사용하기
+## JSX 안에서 prop 사용하기
 
 JSX에서 props를 정의하는 몇가지 다른 방법이 있습니다.
 

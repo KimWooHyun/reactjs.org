@@ -8,7 +8,7 @@ next: forms.html
 
 자바스크립트의 리스트를 어떻게 변환하는 지 살펴봅시다.
 
-아래 코드에서 [`map()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) 함수를 사용해서 `numbers` 배열을 얻은 뒤 그 값을 두배로 만들려고 합니다. `map()` 이 반황하는 새 배열을 `doubled` 변수에 할당하고 로그를 남겨봅니다.
+아래 코드에서 [`map()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) 함수를 사용해서 `numbers` 배열을 얻은 뒤 그 값을 두배로 만들려고 합니다. `map()` 이 반환하는 새 배열을 `doubled` 변수에 할당하고 로그를 남겨봅니다.
 
 ```javascript{2}
 const numbers = [1, 2, 3, 4, 5];
